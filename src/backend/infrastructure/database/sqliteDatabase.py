@@ -13,7 +13,7 @@ class SqliteDatabase:
         except sqlite3.Error as error:
             print(f"Erro ao conectar ao banco de dados '{self.name}': {error}")
 
-    def createTables(self, schema: str):
+    def create_tables(self, schema: str):
         try:
             self.connection.executescript(schema)
         except sqlite3.Error as error:
