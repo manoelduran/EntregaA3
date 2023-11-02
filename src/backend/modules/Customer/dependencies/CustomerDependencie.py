@@ -1,4 +1,5 @@
 from fastapi import Depends
+from infrastructure.database.schema import tables_schema
 from modules.Customer.repositories.CustomerRepository import CustomerRepository
 from modules.Customer.services.FindAllCustomersService.FindAllCustomersService import FindAllCustomersService
 from modules.Customer.services.FindOneCustomerService.FindOneCustomerService import FindOneCustomerService
@@ -10,6 +11,7 @@ from modules.Customer.services.UpdateCustomerService.UpdateCustomerService impor
 
 def get_db():
     db = SqliteDatabase("store.db")
+    db.connect()
     return db
 
 
@@ -24,13 +26,14 @@ def find_all_customer_service_injection(repository: CustomerRepository = Depends
 def find_one_customer_service_injection(repository: CustomerRepository = Depends(customer_repository_injection)):
     return FindOneCustomerService(repository)
 
+
 def create_customer_service_injection(repository: CustomerRepository = Depends(customer_repository_injection)):
     return CreateCustomerService(repository)
+
 
 def update_customer_service_injection(repository: CustomerRepository = Depends(customer_repository_injection)):
     return UpdateCustomerService(repository)
 
+
 def delete_customer_service_injection(repository: CustomerRepository = Depends(customer_repository_injection)):
     return DeleteCustomerService(repository)
-
-

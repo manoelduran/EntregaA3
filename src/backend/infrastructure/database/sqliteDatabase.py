@@ -26,12 +26,14 @@ class SqliteDatabase:
                 f"Conexão com o banco de dados '{self.name}' encerrada com sucesso.")
         else:
             print("Nenhuma conexão ativa.")
-            
+
     def execute_query(self, query: str, parameters=None):
         try:
             if parameters:
+                self.connection = sqlite3.connect(self.name)
                 self.connection.execute(query, parameters)
             else:
+                self.connection = sqlite3.connect(self.name)
                 self.connection.execute(query)
             self.connection.commit()
             print("Query executed successfully.")
