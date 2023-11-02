@@ -4,5 +4,5 @@ class DeleteCustomerService():
     def __init__(self, customerRepository: CustomerRepository):
         self.customerRepository = customerRepository
     def execute(self):
-        customers = self.customerRepository.findAll()
+        customers = self.customerRepository.delete()
         return customers
