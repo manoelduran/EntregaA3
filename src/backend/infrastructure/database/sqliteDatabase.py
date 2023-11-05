@@ -15,7 +15,8 @@ class SqliteDatabase:
 
     def create_tables(self, schema: str):
         try:
-            self.connection.executescript(schema)
+            with sqlite3.connect(self.name) as connection:
+                connection.executescript(schema)
         except sqlite3.Error as error:
             print(f"Erro ao criar o esquema da tabela: {error}")
 
@@ -29,13 +30,13 @@ class SqliteDatabase:
 
     def execute_query(self, query: str, parameters=None):
         try:
-            if parameters:
-                self.connection = sqlite3.connect(self.name)
-                self.connection.execute(query, parameters)
-            else:
-                self.connection = sqlite3.connect(self.name)
-                self.connection.execute(query)
-            self.connection.commit()
+            with sqlite3.connect(self.name) as connection:
+                cursor = self.connection.cursor()
+                if parameters:
+                    cursor.execute(query, parameters)
+                else:
+                    cursor.execute(query)
+                connection.commit()
             print("Query executed successfully.")
         except sqlite3.Error as error:
             print(f"Error executing query: {error}")

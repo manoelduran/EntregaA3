@@ -1,5 +1,4 @@
 from fastapi import Depends
-from infrastructure.database.schema import tables_schema
 from modules.Customer.repositories.CustomerRepository import CustomerRepository
 from modules.Customer.services.FindAllCustomersService.FindAllCustomersService import FindAllCustomersService
 from modules.Customer.services.FindOneCustomerService.FindOneCustomerService import FindOneCustomerService

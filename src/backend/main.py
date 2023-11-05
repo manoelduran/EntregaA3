@@ -10,7 +10,6 @@ def get_db():
     db = SqliteDatabase("store.db")
     db.connect()
     db.create_tables(schema=tables_schema)
-    db.disconnect()
     return db
 
 
