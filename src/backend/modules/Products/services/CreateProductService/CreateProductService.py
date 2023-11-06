@@ -6,10 +6,10 @@ class ProductCustomerService():
         self.repository = repository
 
     def execute(self, product: Product):
-        foundProduct = self.repository.find_by_name(email=product.email)
+        foundProduct = self.repository.find_by_id(id=product.id)
 
         if foundProduct is Product:
-            return "Already exists an product with this name!"
+            return "Already exists an product with this id!"
         else:
             newProduct = self.repository.create(product=product)
             return newProduct
