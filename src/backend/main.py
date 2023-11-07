@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from modules.Product.routes.ProductRoutes import ProductRoutes
 from infrastructure.database.schema import tables_schema
 from infrastructure.database.sqliteDatabase import SqliteDatabase
 from modules.Customer.routes.CustomerRoutes import customerRouter
@@ -19,6 +20,7 @@ origins = [
 ]
 
 app.include_router(customerRouter)
+app.include_router(ProductRoutes)
 
 app.add_middleware(
     CORSMiddleware,

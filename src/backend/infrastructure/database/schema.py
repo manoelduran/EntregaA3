@@ -9,9 +9,10 @@ tables_schema = """
 
             CREATE TABLE IF NOT EXISTS products (
                 id INTEGER PRIMARY KEY,
-                name TEXT NOT NULL,
-                price REAL NOT NULL,
-                quantity INTEGER NOT NULL
+                name TEXT NOT NULL UNIQUE,
+                price INTEGER NOT NULL,
+                quantity INTEGER NOT NULL,
+                created_at DATETIME DEFAULT (datetime('now','localtime'))
             );
 
             CREATE TABLE IF NOT EXISTS orders (

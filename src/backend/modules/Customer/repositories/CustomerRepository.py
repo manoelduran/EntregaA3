@@ -1,4 +1,5 @@
 import sqlite3
+from modules.Customer.dtos.CreateCustomerDto import CreateCustomerDto
 from modules.Customer.models.Customer import Customer
 from infrastructure.database.sqliteDatabase import SqliteDatabase
 
@@ -51,7 +52,7 @@ class CustomerRepository:
         except sqlite3.Error as error:
             print(f"Error fetching customer with email {email}: {error}")
 
-    def create(self, customer: Customer):
+    def create(self, customer: CreateCustomerDto):
         query = "INSERT INTO customers (name, email, password) VALUES (?, ?, ?)"
         parameters = (customer.name, customer.email, customer.password)
         try:

@@ -1,4 +1,4 @@
-from modules.Product.models.Product import Product
+from modules.Product.dtos.UpdateProductDto import UpdateProductDto
 from modules.Product.repositories.ProductRepository import ProductRepository
 
 
@@ -6,7 +6,7 @@ class UpdateProductService():
     def __init__(self, repository: ProductRepository):
         self.repository = repository
 
-    def execute(self, id: int, product: Product):
+    def execute(self, id: int, product: UpdateProductDto):
         foundProduct = self.repository.find_one(id)
 
         if foundProduct is None:

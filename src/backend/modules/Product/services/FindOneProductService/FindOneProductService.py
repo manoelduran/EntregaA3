@@ -1,7 +1,7 @@
 from modules.Product.repositories.ProductRepository import ProductRepository
 
 
-class FindOneCustomerService():
+class FindOneProductService():
     def __init__(self, repository: ProductRepository):
         self.repository = repository
 
