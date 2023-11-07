@@ -1,6 +1,7 @@
 from typing import Union
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
+from modules.Customer.dtos.UpdateCustomerDto import UpdateCustomerDto
 from modules.Customer.dtos.CreateCustomerDto import CreateCustomerDto
 from modules.Customer.models.Customer import Customer
 from modules.Customer.services.CreateCustomerService.CreateCustomerService import CreateCustomerService
@@ -38,11 +39,11 @@ def create(customer: CreateCustomerDto, service: CreateCustomerService = Depends
             status_code=400, detail="Already exists an customer with this email!")
 
 
-@customerRouter.put("/{id}", response_model=Union[Customer, str], status_code=200)
-def update(id: int, customer: Customer,  service: UpdateCustomerService = Depends(update_customer_service_injection)):
+@customerRouter.put("/{id}", response_model=Union[UpdateCustomerDto, str], status_code=200)
+def update(id: int, customer: UpdateCustomerDto,  service: UpdateCustomerService = Depends(update_customer_service_injection)):
     foundCustomer = service.execute(id, customer)
-    if isinstance(foundCustomer, Customer):
-        return foundCustomer.json()
+    if isinstance(foundCustomer, UpdateCustomerDto):
+        return foundCustomer
     else:
         raise HTTPException(
             status_code=404, detail="Customer not found!")

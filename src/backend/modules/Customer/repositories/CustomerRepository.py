@@ -1,4 +1,5 @@
 import sqlite3
+from modules.Customer.dtos.UpdateCustomerDto import UpdateCustomerDto
 from modules.Customer.dtos.CreateCustomerDto import CreateCustomerDto
 from modules.Customer.models.Customer import Customer
 from infrastructure.database.sqliteDatabase import SqliteDatabase
@@ -67,7 +68,7 @@ class CustomerRepository:
         except sqlite3.Error as error:
             print(f"Error creating customer: {error}")
 
-    def update(self, id: int, customer: Customer):
+    def update(self, id: int, customer: UpdateCustomerDto):
         query = "UPDATE customers SET name=?, email=?, password=? WHERE id=?"
         parameters = (customer.name, customer.email, customer.password, id)
         try:
