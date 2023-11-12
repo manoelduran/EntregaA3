@@ -15,8 +15,9 @@ class OrderRepository:
             with self.database.connection:
                 cursor = self.database.connection.execute(query)
                 rows = cursor.fetchall()
+                print("rows", rows)
                 orders = [Order(id=row[0], customer_id=row[1], payment_method=row[2],
-                                product_id=row[3], quantity=row[3], ordered_at=row[4]) for row in rows]
+                                product_id=row[3], quantity=row[4], ordered_at=row[5]) for row in rows]
                 return orders
         except sqlite3.Error as error:
             print(f"Error fetching orders: {error}")
@@ -30,7 +31,7 @@ class OrderRepository:
                 row = cursor.fetchone()
                 if row:
                     order = Order(id=row[0], customer_id=row[1], payment_method=row[2],
-                                  product_id=row[3], quantity=row[3], ordered_at=row[4])
+                                  product_id=row[3], quantity=row[4], ordered_at=row[5])
                     return order
                 else:
                     print(f"Order with ID {id} not found.")
@@ -46,7 +47,7 @@ class OrderRepository:
                 rows = cursor.fetchall()
                 if rows:
                     orders = [Order(id=row[0], customer_id=row[1], payment_method=row[2],
-                                    product_id=row[3], quantity=row[3], ordered_at=row[4]) for row in rows]
+                                    product_id=row[3], quantity=row[4], ordered_at=row[5]) for row in rows]
                     return orders
                 else:
                     print(f"Orders with customer_id {customer_id} not found.")
@@ -63,7 +64,7 @@ class OrderRepository:
                 rows = cursor.fetchall()
                 if rows:
                     orders = [Order(id=row[0], customer_id=row[1], payment_method=row[2],
-                                    product_id=row[3], quantity=row[3], ordered_at=row[4]) for row in rows]
+                                    product_id=row[3], quantity=row[4], ordered_at=row[5]) for row in rows]
                     return orders
                 else:
                     print(f"Orders with product_id {product_id} not found.")
@@ -72,7 +73,7 @@ class OrderRepository:
                 f"Error fetching orders with product_id {product_id}: {error}")
 
     def create(self, order: CreateOrderDto):
-        query = "INSERT INTO order (customer_id, payment_method, product_id, quantity) VALUES (?, ?, ?)"
+        query = "INSERT INTO orders (customer_id, payment_method, product_id, quantity) VALUES (?, ?, ?, ?)"
         parameters = (order.customer_id, order.payment_method,
                       order.product_id, order.quantity)
         try:

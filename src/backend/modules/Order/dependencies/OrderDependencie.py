@@ -5,6 +5,10 @@ from modules.Order.services.FindAllOrdersService.FindAllOrdersService import Fin
 from modules.Order.services.FindOneOrderService.FindOneOrderService import FindOneOrderService
 from modules.Order.services.UpdateOrderService.UpdateOrderService import UpdateOrderService
 from modules.Order.repositories.OrderRepository import OrderRepository
+from modules.Product.repositories.ProductRepository import ProductRepository
+from modules.Product.dependencies.ProductDependencie import product_repository_injection
+from modules.Customer.dependencies.CustomerDependencie import customer_repository_injection
+from modules.Customer.repositories.CustomerRepository import CustomerRepository
 from infrastructure.database.sqliteDatabase import SqliteDatabase
 
 
@@ -26,13 +30,13 @@ def find_one_order_service_injection(repository: OrderRepository = Depends(order
     return FindOneOrderService(repository)
 
 
-def create_order_service_injection(repository: OrderRepository = Depends(order_repository_injection)):
-    return CreateOrderService(repository)
+def create_order_service_injection(repository: OrderRepository = Depends(order_repository_injection), product_repository: ProductRepository = Depends(product_repository_injection), customer_repository: CustomerRepository = Depends(customer_repository_injection)):
+    return CreateOrderService(repository, product_repository, customer_repository)
 
 
-def update_order_service_injection(repository: OrderRepository = Depends(order_repository_injection)):
-    return UpdateOrderService(repository)
+def update_order_service_injection(repository: OrderRepository = Depends(order_repository_injection), product_repository: ProductRepository = Depends(product_repository_injection), customer_repository: CustomerRepository = Depends(customer_repository_injection)):
+    return UpdateOrderService(repository, product_repository, customer_repository)
 
 
-def delete_order_service_injection(repository: OrderRepository = Depends(order_repository_injection)):
-    return DeleteOrderService(repository)
+def delete_order_service_injection(repository: OrderRepository = Depends(order_repository_injection), product_repository: ProductRepository = Depends(product_repository_injection),):
+    return DeleteOrderService(repository, product_repository)

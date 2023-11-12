@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from modules.Product.routes.ProductRoutes import ProductRoutes
+from modules.Product.routes.ProductRoutes import product_router
 from infrastructure.database.schema import tables_schema
 from infrastructure.database.sqliteDatabase import SqliteDatabase
-from modules.Customer.routes.CustomerRoutes import customerRouter
+from modules.Customer.routes.CustomerRoutes import customer_router
+from modules.Order.routes.OrderRoutes import order_router
 from uvicorn import run
 
 
@@ -19,8 +20,9 @@ origins = [
     "http://localhost:8000",
 ]
 
-app.include_router(customerRouter)
-app.include_router(ProductRoutes)
+app.include_router(customer_router)
+app.include_router(product_router)
+app.include_router(order_router)
 
 app.add_middleware(
     CORSMiddleware,

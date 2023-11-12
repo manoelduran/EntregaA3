@@ -6,5 +6,4 @@ class CreateOrderDto(BaseModel):
     payment_method: str
     product_id: int
     quantity: int
-    ordered_at: str
 

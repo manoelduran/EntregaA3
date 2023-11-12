@@ -11,49 +11,49 @@ from modules.Customer.services.FindAllCustomersService.FindAllCustomersService i
 from modules.Customer.services.FindOneCustomerService.FindOneCustomerService import FindOneCustomerService
 from modules.Customer.dependencies.CustomerDependencie import create_customer_service_injection, find_all_customer_service_injection, find_one_customer_service_injection, update_customer_service_injection, delete_customer_service_injection
 
-customerRouter = APIRouter(prefix="/customers", tags=["customers"])
+customer_router = APIRouter(prefix="/customers", tags=["customers"])
 
 
-@customerRouter.get("/", response_model=list[Customer], status_code=200)
+@customer_router.get("/", response_model=list[Customer], status_code=200)
 def find_all(service: FindAllCustomersService = Depends(find_all_customer_service_injection)):
     return service.execute()
 
 
-@customerRouter.get("/{id}", response_model=Union[Customer, str], status_code=200)
+@customer_router.get("/{id}", response_model=Union[Customer, str], status_code=200)
 def find_one(id: int, service: FindOneCustomerService = Depends(find_one_customer_service_injection)):
     foundCustomer = service.execute(id)
     if isinstance(foundCustomer, Customer):
         return foundCustomer.json()
     else:
         raise HTTPException(
-            status_code=404, detail="Customer not found!")
+            status_code=404, detail=foundCustomer)
 
 
-@customerRouter.post("/", response_model=Union[CreateCustomerDto, str], status_code=201)
+@customer_router.post("/", response_model=Union[CreateCustomerDto, str], status_code=201)
 def create(customer: CreateCustomerDto, service: CreateCustomerService = Depends(create_customer_service_injection)):
     newCustomer = service.execute(customer)
     if isinstance(newCustomer, CreateCustomerDto):
         return newCustomer
     else:
         raise HTTPException(
-            status_code=400, detail="Already exists an customer with this email!")
+            status_code=400, detail=newCustomer)
 
 
-@customerRouter.put("/{id}", response_model=Union[UpdateCustomerDto, str], status_code=200)
+@customer_router.put("/{id}", response_model=Union[UpdateCustomerDto, str], status_code=200)
 def update(id: int, customer: UpdateCustomerDto,  service: UpdateCustomerService = Depends(update_customer_service_injection)):
-    foundCustomer = service.execute(id, customer)
-    if isinstance(foundCustomer, UpdateCustomerDto):
-        return foundCustomer
+    updatedCustomer = service.execute(id, customer)
+    if isinstance(updatedCustomer, UpdateCustomerDto):
+        return updatedCustomer
     else:
         raise HTTPException(
-            status_code=404, detail="Customer not found!")
+            status_code=404, detail=updatedCustomer)
 
 
-@customerRouter.delete("/{id}", response_model=Union[Customer, str])
+@customer_router.delete("/{id}", response_model=Union[Customer, str])
 def delete(id: int, service: DeleteCustomerService = Depends(delete_customer_service_injection)):
-    foundCustomer = service.execute(id)
-    if isinstance(foundCustomer, Customer):
-        return JSONResponse(status_code=204, content=foundCustomer.json())
+    deletedCustomer = service.execute(id)
+    if isinstance(deletedCustomer, Customer):
+        return JSONResponse(status_code=204, content=deletedCustomer.json())
     else:
         raise HTTPException(
-            status_code=404, detail="Customer not found!")
+            status_code=404, detail=deletedCustomer)
