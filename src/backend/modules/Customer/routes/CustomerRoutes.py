@@ -33,10 +33,11 @@ def find_one(id: int, service: FindOneCustomerService = Depends(find_one_custome
 def create(customer: CreateCustomerDto, service: CreateCustomerService = Depends(create_customer_service_injection)):
     newCustomer = service.execute(customer)
     if isinstance(newCustomer, CreateCustomerDto):
+
         return newCustomer
     else:
         raise HTTPException(
-            status_code=400, detail=newCustomer)
+            status_code=400, detail='Already exists an user with this email!')
 
 
 @customer_router.put("/{id}", response_model=Union[UpdateCustomerDto, str], status_code=200)
@@ -46,7 +47,7 @@ def update(id: int, customer: UpdateCustomerDto,  service: UpdateCustomerService
         return updatedCustomer
     else:
         raise HTTPException(
-            status_code=404, detail=updatedCustomer)
+            status_code=404, detail='Already exists an user with this email!')
 
 
 @customer_router.delete("/{id}", response_model=Union[Customer, str])

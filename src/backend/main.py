@@ -17,7 +17,7 @@ def get_db():
 
 app = FastAPI(title='API_ENTREGAA3')
 origins = [
-    "http://localhost:8000",
+    "http://localhost:3000",
 ]
 
 app.include_router(customer_router)
