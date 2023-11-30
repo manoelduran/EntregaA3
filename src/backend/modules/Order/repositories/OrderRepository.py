@@ -39,6 +39,7 @@ class OrderRepository:
             print(f"Error fetching order with ID {id}: {error}")
 
     def find_all_by_customer_id(self, customer_id: int):
+        print("customer_id", customer_id)
         query = "SELECT * FROM orders WHERE customer_id = ?"
         parameters = (customer_id,)
         try:
@@ -48,6 +49,7 @@ class OrderRepository:
                 if rows:
                     orders = [Order(id=row[0], customer_id=row[1], payment_method=row[2],
                                     product_id=row[3], quantity=row[4], ordered_at=row[5]) for row in rows]
+                    print("orders", orders)
                     return orders
                 else:
                     print(f"Orders with customer_id {customer_id} not found.")
