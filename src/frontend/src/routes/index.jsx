@@ -13,12 +13,12 @@ import CreateOrUpdateOrder from "../pages/CreateOrUpdateOrder";
 import CustomerOrderHistoryReport from "../pages/CustomerOrderHistoryReport";
 import CustomerAverage from "../pages/CustomerAverage";
 import ProductsBestsellers from "../pages/ProductsBestsellers";
-
+import ProductsLowStock from "../pages/ProductsLowStock";
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" exact element={<Home />} />
-      <Route path="/customers" element={<CustomersDashboard />} />
+      <Route path="/customers" exact element={<CustomersDashboard />} />
       <Route
         path="/customers/create"
         exact
@@ -29,29 +29,36 @@ const AppRoutes = () => {
         exact
         element={<CreateOrUpdateCustomer />}
       />
-      <Route path="/customers/:id/show" element={<CustomerDetails />} />
-      <Route path="/products" element={<ProductsDashboard />} />
+      <Route path="/customers/:id/show" exact element={<CustomerDetails />} />
+      <Route path="/products" exact element={<ProductsDashboard />} />
       <Route
         path="/products/create"
         exact
         element={<CreateOrUpdateProduct />}
       />
-      <Route path="/products/:id/show" element={<ProductsDetails />} />
-      <Route path="/products/bestsellers" element={<ProductsBestsellers />} />
+      <Route path="/products/:id/show" exact element={<ProductsDetails />} />
+      <Route
+        path="/products/bestsellers"
+        exact
+        element={<ProductsBestsellers />}
+      />
+      <Route path="/products/low-stock" exact element={<ProductsLowStock />} />
       <Route
         path="/products/:id/edit"
         exact
         element={<CreateOrUpdateProduct />}
       />
-      <Route path="/orders" element={<OrdersDashboard />} />
+      <Route path="/orders" exact element={<OrdersDashboard />} />
       <Route path="/orders/create" exact element={<CreateOrUpdateOrder />} />
       <Route path="/orders/:id/show" exact element={<OrderDetails />} />
       <Route
         path="/orders/customer/:id"
+        exact
         element={<CustomerOrderHistoryReport />}
       />
       <Route
         path="/orders/customer/:id/average"
+        exact
         element={<CustomerAverage />}
       />
       <Route path="/orders/:id/edit" exact element={<CreateOrUpdateOrder />} />
