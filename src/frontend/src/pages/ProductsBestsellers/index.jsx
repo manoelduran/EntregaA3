@@ -10,19 +10,28 @@ const ProductsBestsellers = () => {
 
   useEffect(() => {
     api
-      .get("/orders")
+      .get("/orders/products")
       .then((response) => setOrders(response.data))
       .catch((error) => console.error("Erro ao buscar produtos:", error));
   }, []);
   const productsBestSellers = useMemo(() => {
     const productsCounter = {};
+    console.log("orders", orders);
     orders?.forEach((order) => {
-      const { product_id } = order;
-      productsCounter[product_id] = (productsCounter[product_id] || 0) + 1;
+      const { product_id, product_name, price } = order;
+      if (!productsCounter[product_id]) {
+        productsCounter[product_id] = {
+          totalQuantity: 0,
+          product_name,
+          price,
+        };
+      }
+      productsCounter[product_id].totalQuantity += 1;
     });
+    console.log("productsCounter", productsCounter);
     const products = Object.keys(productsCounter).map((product_id) => ({
       product_id,
-      totalQuantity: productsCounter[product_id],
+      ...productsCounter[product_id],
     }));
     const sortedProducts = products.sort(
       (a, b) => b.totalQuantity - a.totalQuantity
@@ -52,8 +61,8 @@ const ProductsBestsellers = () => {
           {productsBestSellers.map((product) => (
             <tr key={product.product_id}>
               <td>{product.product_id}</td>
-              <td>{product.name}</td>
-              <td>{product.price}</td>
+              <td>{product.product_name}</td>
+              <td>R$ {product.price}</td>
               <td>{product.totalQuantity}</td>
             </tr>
           ))}

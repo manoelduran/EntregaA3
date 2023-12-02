@@ -74,6 +74,22 @@ class OrderRepository:
             print(
                 f"Error fetching orders with product_id {product_id}: {error}")
 
+    def find_all_with_project(self):
+        query = "SELECT * FROM orders"
+        try:
+            with self.database.connection:
+                cursor = self.database.connection.execute(query)
+                rows = cursor.fetchall()
+                if rows:
+                    orders = [Order(id=row[0], customer_id=row[1], payment_method=row[2],
+                                    product_id=row[3], quantity=row[4], ordered_at=row[5]) for row in rows]
+                    return orders
+                else:
+                    print(f"Orders not found.")
+        except sqlite3.Error as error:
+            print(
+                f"Error fetching orders: {error}")
+
     def create(self, order: CreateOrderDto):
         query = "INSERT INTO orders (customer_id, payment_method, product_id, quantity) VALUES (?, ?, ?, ?)"
         parameters = (order.customer_id, order.payment_method,

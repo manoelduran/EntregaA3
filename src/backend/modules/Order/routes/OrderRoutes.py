@@ -2,6 +2,8 @@ from typing import Union
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from modules.Order.dtos.FindAllByCustomerDto import FindAllByCustomerDto
+from modules.Order.dtos.FindAllWithProductDto import FindAllWithProductDto
+from modules.Order.services.FindAllOrdersWithProductService.FindAllOrdersWithProductService import FindAllOrdersWithProductService
 from modules.Order.services.CreateOrderService.CreateOrderService import CreateOrderService
 from modules.Order.services.DeleteOrderService.DeleteOrderService import DeleteOrderService
 from modules.Order.services.FindAllOrdersService.FindAllOrdersService import FindAllOrdersService
@@ -12,7 +14,7 @@ from modules.Order.services.UpdateOrderService.UpdateOrderService import UpdateO
 from modules.Order.dtos.UpdateOrderDto import UpdateOrderDto
 from modules.Order.dtos.CreateOrderDto import CreateOrderDto
 from modules.Order.models.Order import Order
-from modules.Order.dependencies.OrderDependencie import find_all_order_service_injection, find_all_order_by_customerId_service_injection, find_all_order_by_productId_service_injection, find_one_order_service_injection, create_order_service_injection, update_order_service_injection, delete_order_service_injection
+from modules.Order.dependencies.OrderDependencie import find_all_order_service_injection, find_all_order_by_customerId_service_injection, find_all_order_by_productId_service_injection, find_one_order_service_injection, create_order_service_injection, update_order_service_injection, delete_order_service_injection, find_all_order_with_product_service_injection
 
 order_router = APIRouter(prefix="/orders", tags=["orders"])
 
@@ -20,6 +22,17 @@ order_router = APIRouter(prefix="/orders", tags=["orders"])
 @order_router.get("/", response_model=list[Order], status_code=200)
 def find_all(service: FindAllOrdersService = Depends(find_all_order_service_injection)):
     return service.execute()
+
+
+@order_router.get("/products", response_model=Union[list[FindAllWithProductDto], str], status_code=200)
+def find_all_with_product(service: FindAllOrdersWithProductService = Depends(find_all_order_with_product_service_injection)):
+    orders = service.execute()
+    print("orders", orders)
+    if (orders):
+        return orders
+    else:
+        raise HTTPException(
+            status_code=404, detail=orders)
 
 
 @order_router.get("/{id}", response_model=Union[Order, str], status_code=200)

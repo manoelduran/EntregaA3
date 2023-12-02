@@ -1,3 +1,4 @@
+from modules.Order.services.FindAllOrdersWithProductService.FindAllOrdersWithProductService import FindAllOrdersWithProductService
 from fastapi import Depends
 from modules.Order.services.CreateOrderService.CreateOrderService import CreateOrderService
 from modules.Order.services.DeleteOrderService.DeleteOrderService import DeleteOrderService
@@ -34,6 +35,10 @@ def find_all_order_by_customerId_service_injection(repository: OrderRepository =
 
 def find_all_order_by_productId_service_injection(repository: OrderRepository = Depends(order_repository_injection)):
     return FindAllOrdersByProductIdService(repository)
+
+
+def find_all_order_with_product_service_injection(repository: OrderRepository = Depends(order_repository_injection),  product_repository: ProductRepository = Depends(product_repository_injection)):
+    return FindAllOrdersWithProductService(repository, product_repository)
 
 
 def find_one_order_service_injection(repository: OrderRepository = Depends(order_repository_injection)):
