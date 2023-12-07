@@ -1,6 +1,5 @@
 from typing import Union
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.responses import JSONResponse
 from modules.Customer.dtos.UpdateCustomerDto import UpdateCustomerDto
 from modules.Customer.dtos.CreateCustomerDto import CreateCustomerDto
 from modules.Customer.models.Customer import Customer
@@ -26,7 +25,7 @@ def find_one(id: int, service: FindOneCustomerService = Depends(find_one_custome
         return foundCustomer.json()
     else:
         raise HTTPException(
-            status_code=404, detail=foundCustomer)
+            status_code=404, detail="Customer not found!")
 
 
 @customer_router.post("/", response_model=Union[CreateCustomerDto, str], status_code=201)
@@ -50,11 +49,9 @@ def update(id: int, customer: UpdateCustomerDto,  service: UpdateCustomerService
             status_code=404, detail='Already exists an user with this email!')
 
 
-@customer_router.delete("/{id}", response_model=Union[Customer, str])
+@customer_router.delete("/{id}", status_code=204)
 def delete(id: int, service: DeleteCustomerService = Depends(delete_customer_service_injection)):
-    deletedCustomer = service.execute(id)
-    if isinstance(deletedCustomer, Customer):
-        return JSONResponse(status_code=204, content=deletedCustomer.json())
-    else:
+    customer = service.execute(id)
+    if customer:
         raise HTTPException(
-            status_code=404, detail=deletedCustomer)
+            status_code=404, detail="Customer not found!")

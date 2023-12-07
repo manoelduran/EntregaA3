@@ -20,11 +20,13 @@ const OrdersDashboard = () => {
   const handleDelete = (orderId) => {
     api
       .delete(`/orders/${orderId}`)
-      .catch((error) => console.error("Erro ao buscar pedidos:", error));
-    api
-      .get("/orders")
-      .then((response) => {
-        setOrders(response.data);
+      .then(() => {
+        api
+          .get("/orders")
+          .then((response) => {
+            setOrders(response.data);
+          })
+          .catch((error) => console.error("Erro ao buscar pedidos:", error));
       })
       .catch((error) => console.error("Erro ao buscar pedidos:", error));
   };

@@ -12,4 +12,3 @@ class DeleteOrderService():
         if order is None:
             return "Order not found!"
         self.repository.delete(id)
-        return order

@@ -1,6 +1,5 @@
 from typing import Union
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.responses import JSONResponse
 from modules.Order.dtos.FindAllByCustomerDto import FindAllByCustomerDto
 from modules.Order.dtos.FindAllWithProductDto import FindAllWithProductDto
 from modules.Order.services.FindAllOrdersWithProductService.FindAllOrdersWithProductService import FindAllOrdersWithProductService
@@ -87,11 +86,9 @@ def update(id: int, order: UpdateOrderDto,  service: UpdateOrderService = Depend
             status_code=404, detail=foundOrder)
 
 
-@order_router.delete("/{id}", response_model=Union[Order, str])
+@order_router.delete("/{id}", status_code=204)
 def delete(id: int, service: DeleteOrderService = Depends(delete_order_service_injection)):
     foundOrder = service.execute(id)
-    if isinstance(foundOrder, Order):
-        return JSONResponse(status_code=204, content=foundOrder.json())
-    else:
+    if foundOrder:
         raise HTTPException(
             status_code=404, detail=foundOrder)

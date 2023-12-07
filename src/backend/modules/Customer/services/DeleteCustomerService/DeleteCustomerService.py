@@ -13,4 +13,3 @@ class DeleteCustomerService():
             return "Customer not found!"
         else:
             self.repository.delete(id)
-            return customer

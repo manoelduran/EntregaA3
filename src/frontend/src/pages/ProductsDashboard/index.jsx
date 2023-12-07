@@ -17,14 +17,16 @@ const ProductsDashboard = () => {
   const handleView = (productId) => {
     navigate(`/products/${productId}/show`, { state: { productId } });
   };
-  const handleDelete = (customerId) => {
+  const handleDelete = (productId) => {
     api
-      .delete(`/products/${customerId}`)
-      .catch((error) => console.error("Erro ao buscar clientes:", error));
-    api
-      .get("/products")
-      .then((response) => {
-        setProducts(response.data);
+      .delete(`/products/${productId}`)
+      .then(() => {
+        api
+          .get("/products")
+          .then((response) => {
+            setProducts(response.data);
+          })
+          .catch((error) => console.error("Erro ao buscar clientes:", error));
       })
       .catch((error) => console.error("Erro ao buscar clientes:", error));
   };
@@ -90,11 +92,6 @@ const ProductsDashboard = () => {
                   title="Atualizar"
                   color="#4CAF50"
                 />
-                {/*                <Button
-                  onClick={() => handleUpdate(product.id)}
-                  title="Histórico de Venda"
-                  color="#FFA500"
-          />*/}
               </td>
             </tr>
           ))}

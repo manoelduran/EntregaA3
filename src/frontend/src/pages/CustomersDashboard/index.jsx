@@ -27,11 +27,13 @@ const CustomersDashboard = () => {
   const handleDelete = (customerId) => {
     api
       .delete(`/customers/${customerId}`)
-      .catch((error) => console.error("Erro ao buscar clientes:", error));
-    api
-      .get("/customers")
-      .then((response) => {
-        setCustomers(response.data);
+      .then(() => {
+        api
+          .get("/customers")
+          .then((response) => {
+            setCustomers(response.data);
+          })
+          .catch((error) => console.error("Erro ao buscar clientes:", error));
       })
       .catch((error) => console.error("Erro ao buscar clientes:", error));
   };
