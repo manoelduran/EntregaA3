@@ -74,7 +74,7 @@ class ProductRepository:
         try:
             with self.database.connection:
                 cursor = self.database.connection.execute(query, parameters)
-                print("cursor", cursor)
+
                 self.database.connection.commit()
                 if cursor.rowcount > 0:
                     return product

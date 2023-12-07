@@ -15,7 +15,7 @@ class OrderRepository:
             with self.database.connection:
                 cursor = self.database.connection.execute(query)
                 rows = cursor.fetchall()
-                print("rows", rows)
+
                 orders = [Order(id=row[0], customer_id=row[1], payment_method=row[2],
                                 product_id=row[3], quantity=row[4], ordered_at=row[5]) for row in rows]
                 return orders
@@ -32,6 +32,7 @@ class OrderRepository:
                 if row:
                     order = Order(id=row[0], customer_id=row[1], payment_method=row[2],
                                   product_id=row[3], quantity=row[4], ordered_at=row[5])
+
                     return order
                 else:
                     print(f"Order with ID {id} not found.")
@@ -39,7 +40,7 @@ class OrderRepository:
             print(f"Error fetching order with ID {id}: {error}")
 
     def find_all_by_customer_id(self, customer_id: int):
-        print("customer_id", customer_id)
+
         query = "SELECT * FROM orders WHERE customer_id = ?"
         parameters = (customer_id,)
         try:
@@ -49,7 +50,7 @@ class OrderRepository:
                 if rows:
                     orders = [Order(id=row[0], customer_id=row[1], payment_method=row[2],
                                     product_id=row[3], quantity=row[4], ordered_at=row[5]) for row in rows]
-                    print("orders", orders)
+
                     return orders
                 else:
                     print(f"Orders with customer_id {customer_id} not found.")
@@ -115,6 +116,7 @@ class OrderRepository:
                 cursor = self.database.connection.execute(query, parameters)
                 self.database.connection.commit()
                 if cursor.rowcount > 0:
+
                     return order
                 else:
                     return print(f"Order with ID {id} not found.")

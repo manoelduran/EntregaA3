@@ -42,6 +42,7 @@ def create(customer: CreateCustomerDto, service: CreateCustomerService = Depends
 @customer_router.put("/{id}", response_model=Union[UpdateCustomerDto, str], status_code=200)
 def update(id: int, customer: UpdateCustomerDto,  service: UpdateCustomerService = Depends(update_customer_service_injection)):
     updatedCustomer = service.execute(id, customer)
+
     if isinstance(updatedCustomer, UpdateCustomerDto):
         return updatedCustomer
     else:

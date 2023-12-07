@@ -6,6 +6,6 @@ class FindAllProductsService():
         self.repository = repository
 
     def execute(self):
-        ola = self.repository.find_all()
-        print("ola", ola)
-        return ola
+        projects = self.repository.find_all()
+
+        return projects

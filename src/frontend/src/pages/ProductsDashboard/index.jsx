@@ -54,7 +54,11 @@ const ProductsDashboard = () => {
             title="Baixo Estoque"
             color="#FF69B4"
           />
-          <Button onClick={() => navigate(-1)} title="Voltar" color="#808080" />
+          <Button
+            onClick={() => navigate("/")}
+            title="Voltar"
+            color="#808080"
+          />
         </div>
       </div>
       <table>

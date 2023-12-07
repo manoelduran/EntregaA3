@@ -26,7 +26,7 @@ def find_all(service: FindAllOrdersService = Depends(find_all_order_service_inje
 @order_router.get("/products", response_model=Union[list[FindAllWithProductDto], str], status_code=200)
 def find_all_with_product(service: FindAllOrdersWithProductService = Depends(find_all_order_with_product_service_injection)):
     orders = service.execute()
-    print("orders", orders)
+
     if (orders):
         return orders
     else:
@@ -46,9 +46,9 @@ def find_one(id: int, service: FindOneOrderService = Depends(find_one_order_serv
 
 @order_router.get("/customer/{id}", response_model=Union[list[FindAllByCustomerDto], str], status_code=200)
 def find_all_orders_by_customer(id: int, service: FindAllOrdersByCustomerIdService = Depends(find_all_order_by_customerId_service_injection)):
-    print("id", id)
+
     foundOrder = service.execute(id)
-    print("foundOrder", foundOrder)
+
     if (foundOrder):
         return foundOrder
     else:
@@ -79,7 +79,9 @@ def create(order: CreateOrderDto, service: CreateOrderService = Depends(create_o
 @order_router.put("/{id}", response_model=Union[UpdateOrderDto, str], status_code=200)
 def update(id: int, order: UpdateOrderDto,  service: UpdateOrderService = Depends(update_order_service_injection)):
     foundOrder = service.execute(id, order)
+
     if isinstance(foundOrder, UpdateOrderDto):
+
         return foundOrder
     else:
         raise HTTPException(

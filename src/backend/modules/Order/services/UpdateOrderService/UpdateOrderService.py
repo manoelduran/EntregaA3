@@ -11,18 +11,20 @@ class UpdateOrderService():
         self.customer_repository = customer_repository
 
     def execute(self, id: int, order: UpdateOrderDto):
-        foundOrder = self.repository.find_one(
-            id=id)
+        foundOrder = self.repository.find_one(id)
+
         if foundOrder is None:
             return "Order not found!"
         foundCustomer = self.customer_repository.find_one(
             id=order.customer_id)
+
         if foundCustomer is None:
             return "You only can update an order that you ordered! Your customer_id doesn't match with the current customer_id from this order."
         foundProduct = self.product_repository.find_one(
             id=order.product_id)
         if foundProduct is None:
             return "This product are out of stock!"
+
         if order.quantity != foundOrder.quantity:
             if order.quantity > foundOrder.quantity:
                 foundProduct.quantity = foundProduct.quantity - \
@@ -36,7 +38,9 @@ class UpdateOrderService():
                     (foundOrder.quantity - order.quantity)
                 updatedProduct = self.product_repository.update(
                     order.product_id, product=foundProduct)
-                updatedOrder = self.product_repository.update(
-                    order.product_id, product=foundProduct)
                 updatedOrder = self.repository.update(id, order=order)
+
                 return updatedOrder
+        else:
+            updatedOrder = self.repository.update(id, order=order)
+            return updatedOrder

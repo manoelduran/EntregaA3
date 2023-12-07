@@ -15,7 +15,6 @@ class CustomerRepository:
             with self.database.connection:
                 cursor = self.database.connection.execute(query)
                 rows = cursor.fetchall()
-                print("rows", rows)
                 customers = [Customer(id=row[0], name=row[1], email=row[2],
                                       password=row[3], created_at=row[4]) for row in rows]
                 return customers
