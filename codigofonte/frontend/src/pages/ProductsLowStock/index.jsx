@@ -24,7 +24,6 @@ const ProductsLowStock = () => {
     return sortedProducts;
   }, [products]);
 
-  console.log("productsWithLowStock", productsWithLowStock);
   return (
     <div className="table-container">
       <div className="table-header">

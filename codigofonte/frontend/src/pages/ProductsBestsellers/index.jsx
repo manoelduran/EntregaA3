@@ -7,16 +7,25 @@ import { useNavigate } from "react-router-dom";
 const ProductsBestsellers = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
-
+  const [error, setError] = useState('')
   useEffect(() => {
     api
       .get("/orders/products")
-      .then((response) => setOrders(response.data))
+      .then((response) => {
+
+        if (typeof response.data === 'string') {
+          setError(response.data)
+          return
+        }
+        setOrders(response.data)
+      })
       .catch((error) => console.error("Erro ao buscar produtos:", error));
   }, []);
   const productsBestSellers = useMemo(() => {
+    if (orders.length === 0 && error) {
+      return
+    }
     const productsCounter = {};
-    console.log("orders", orders);
     orders?.forEach((order) => {
       const { product_id, product_name, price } = order;
       if (!productsCounter[product_id]) {
@@ -28,7 +37,6 @@ const ProductsBestsellers = () => {
       }
       productsCounter[product_id].totalQuantity += 1;
     });
-    console.log("productsCounter", productsCounter);
     const products = Object.keys(productsCounter).map((product_id) => ({
       product_id,
       ...productsCounter[product_id],
@@ -39,7 +47,10 @@ const ProductsBestsellers = () => {
     return sortedProducts;
   }, [orders]);
 
-  console.log("produtosMaisVendidos", productsBestSellers);
+  if (error) return (<div style={{ width: '100%', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
+    <h1>{error}</h1>
+    <Button title='Voltar' onClick={() => navigate(-1)} />
+  </div>)
   return (
     <div className="table-container">
       <div className="table-header">
@@ -58,7 +69,7 @@ const ProductsBestsellers = () => {
           </tr>
         </thead>
         <tbody>
-          {productsBestSellers.map((product) => (
+          {productsBestSellers?.map((product) => (
             <tr key={product.product_id}>
               <td>{product.product_id}</td>
               <td>{product.product_name}</td>

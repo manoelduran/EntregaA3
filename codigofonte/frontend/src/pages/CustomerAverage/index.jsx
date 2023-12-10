@@ -9,7 +9,7 @@ const CustomerAverage = () => {
   const navigate = useNavigate();
   const customer = state && state.customer;
   const [orders, setOrders] = useState([]);
-  console.log("customer", customer);
+
   useEffect(() => {
     api
       .get(`/orders/customer/${customer.id}`)
@@ -20,7 +20,6 @@ const CustomerAverage = () => {
   }, []);
   const formattedOrders = useMemo(() => {
     const map = {};
-    console.log("orders", orders);
     orders.forEach((order) => {
       const { product_id, quantity } = order;
 
