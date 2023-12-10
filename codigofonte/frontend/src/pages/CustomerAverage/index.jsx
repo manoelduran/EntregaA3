@@ -9,11 +9,15 @@ const CustomerAverage = () => {
   const navigate = useNavigate();
   const customer = state && state.customer;
   const [orders, setOrders] = useState([]);
-
+  const [error, setError] = useState('')
   useEffect(() => {
     api
       .get(`/orders/customer/${customer.id}`)
       .then((response) => {
+        if (typeof response.data === 'string') {
+          setError(response.data)
+          return
+        }
         setOrders(response.data);
       })
       .catch((error) => console.error("Erro ao buscar pedidos:", error));
@@ -37,6 +41,10 @@ const CustomerAverage = () => {
     }));
   }, [orders]);
   const totalSum = formattedOrders?.reduce((acc, item) => acc + item.total, 0);
+  if (error) return (<div style={{ width: '100%', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
+    <h1>{error}</h1>
+    <Button title='Voltar' onClick={() => navigate(-1)} />
+  </div>)
   return (
     <div className="container">
       {Boolean(orders) ? (
