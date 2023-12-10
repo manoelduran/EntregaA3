@@ -83,24 +83,31 @@ const CreateOrUpdateProduct = () => {
                 <Button title='Voltar' onClick={() => navigate(-1)} />
             </div>
 
+            <div className='form-container'>
             <form onSubmit={handleSubmit}>
                 <label>
                     Nome:
-                    <input type="text" name="name" value={product.name} onChange={handleChange} />
+                
+                    <input type="text" name="name" value={product.name} onChange={handleChange}/>
                 </label>
 
 
                 <label>
                     Preço:
-                    <input type="number" name="price" value={product.price} onChange={handleChange} />
+            
+                    <input type="number" name="price" value={product.price} onChange={handleChange}/>
                 </label>
+
                 <label>
                     Quantidade:
-                    <input type="number" name="quantity" value={product.quantity} onChange={handleChange} />
+               
+                    <input type="number" name="quantity" value={product.quantity} onChange={handleChange}/>
                 </label>
 
                 <Button title={productId ? 'Atualizar' : 'Criar'} type="submit" />
+      
             </form>
+            </div>
         </div>
     );
 };

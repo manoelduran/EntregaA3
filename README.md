@@ -1,17 +1,20 @@
-4°Semestre (2023.2) - UNIFACS - Ciências da Computação
+# Avaliação 3 - Sistemas Distribuídos
+
+## 4° Semestre (2023.2) - UNIFACS - Ciências da Computação
+
 Instruções:
 É necessário ter o Python instalado (Versão utilizada para criação do projeto e a recomendada Python 3.11.5).
 Download do Python: https://www.python.org/downloads/
 
-1. Clonar o projeto com o git e usar na sua IDE de preferência.
+1. Clonar o projeto com o git e usar na sua IDE de preferência. Link: https://github.com/manoelduran/EntregaA3.git
 git clone https://github.com/manoelduran/EntregaA3.git
 2. Para iniciar o projeto, inicialmente iremos rodar a API em python:
      -  Abra um terminal;
      -  Navegue até a pasta backend;
      -  Crie um ambiente virtual:
-         - Na pasta backend, execute o comando no terminal para criar o seu ambiente virutal: python3 -m venv .venv;
+          - Na pasta backend, execute o comando no terminal para criar o seu ambiente virtual: python3 -m venv .venv;
      -  Ative o ambiente virtual: source .venv/bin/activate;
-     -  Ao ativar o ambiente virtual, instale as dependencias: pip install -r requirements.txt ( Irá instalar as dependências, que no nosso caso, é o fastapi[all];
+     -  Ao ativar o ambiente virtual, instale as dependencias: pip install -r requirements.txt ( Irá instalar as dependências, que nesse caso é o fastapi[all])
      -  Após instalar, rode o projeto com o comando: python3 main.py;
 3. Acessar a API localmente:
 http://localhost:8000;
