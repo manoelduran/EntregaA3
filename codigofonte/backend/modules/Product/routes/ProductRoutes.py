@@ -49,11 +49,9 @@ def update(id: int, product: UpdateProductDto,  service: UpdateProductService = 
             status_code=404, detail=updatedProduct)
 
 
-@product_router.delete("/{id}", response_model=Union[Product, str])
+@product_router.delete("/{id}", status_code=204)
 def delete(id: int, service: DeleteProductService = Depends(delete_product_service_injection)):
     deletedProduct = service.execute(id)
-    if isinstance(deletedProduct, Product):
-        return JSONResponse(status_code=204, content=deletedProduct.json())
-    else:
+    if deletedProduct:
         raise HTTPException(
             status_code=404, detail=deletedProduct)

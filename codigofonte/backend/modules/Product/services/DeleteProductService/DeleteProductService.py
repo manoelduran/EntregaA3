@@ -12,4 +12,3 @@ class DeleteProductService():
             return "Product not found!"
         else:
             self.repository.delete(id)
-            return product
